@@ -1,7 +1,10 @@
 import Kitura
 import SwiftyJSON
+import CloudFoundryEnv
 
 let router = Router()
+let appEnv = try CloudFoundryEnv.getAppEnv()
+
 router.all("/info", middleware: BodyParser())
 
 let info = [
@@ -19,7 +22,7 @@ router.post("/info") { request, response, _ in
     }
 }
 
-Kitura.addHTTPServer(onPort: 8000, with: router)
+Kitura.addHTTPServer(onPort: appEnv.port, with: router)
 Kitura.run()
     
     
